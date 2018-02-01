@@ -1,7 +1,8 @@
 const colors = {
-  background: '#1F0808',
+  background: '#FFFFFF',
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
+  blue: '#4D92DE',
   transparent: 'rgba(0,0,0,0)',
   silver: '#F7F7F7',
   steel: '#CCCCCC',

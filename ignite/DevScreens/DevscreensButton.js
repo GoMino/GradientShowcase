@@ -13,6 +13,7 @@ export default class DevscreensButton extends React.Component {
   }
 
   toggleModal = () => {
+    // console.log(`toggleModal ${!this.state.showModal}`);
     this.setState({ showModal: !this.state.showModal })
   }
 

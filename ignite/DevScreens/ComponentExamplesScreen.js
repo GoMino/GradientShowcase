@@ -25,7 +25,7 @@ class ComponentExamplesScreen extends React.Component {
       <View style={[styles.container, styles.mainContainer]}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{
-          position: 'absolute',
+          position: 'relative',
           paddingTop: 30,
           paddingHorizontal: 5,
           zIndex: 10

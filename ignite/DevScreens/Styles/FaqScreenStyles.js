@@ -10,7 +10,7 @@ export default StyleSheet.create({
     lineHeight: Metrics.doubleBaseMargin + 5
   },
   mainContainer: {
-    paddingHorizontal: Metrics.doubleBaseMargin
+    // paddingHorizontal: Metrics.doubleBaseMargin
   },
   description: {
     marginVertical: Metrics.doubleSection
