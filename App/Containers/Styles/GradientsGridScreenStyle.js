@@ -44,7 +44,8 @@ export default StyleSheet.create({
     fontSize:11
   },
   listContent: {
-    marginTop: Metrics.baseMargin
+    marginTop: Metrics.baseMargin,
+    paddingBottom: 100,
   },
   footer: {
     textAlign: 'center',

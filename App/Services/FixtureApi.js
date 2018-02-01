@@ -20,5 +20,11 @@ export default {
       ok: true,
       data: username.toLowerCase() === 'gantman' ? gantmanData : skellockData
     }
-  }
+  },
+  getGradients: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/gradients.json')
+    }
+  },
 }

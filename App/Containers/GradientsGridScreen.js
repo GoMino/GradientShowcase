@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import GradientsActions from '../Redux/GradientsRedux'
+import ReduxPersist from '../Config/ReduxPersist'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 
@@ -27,27 +29,11 @@ class GradientsGridScreen extends React.PureComponent {
   * This is an array of objects with the properties you desire
   * Usually this should come from Redux mapStateToProps
   *************************************************************/
-  state = {
-    dataObjects: [
-      {title: 'Gradient #1', description: 'Suggested for you'},
-      {title: 'Gradient #2', description: 'Suggested for you'},
-      {title: 'Gradient #3', description: 'Suggested for you'},
-      {title: 'Gradient #4', description: 'Suggested for you'},
-      {title: 'Gradient #5', description: 'Suggested for you'},
-      {title: 'Gradient #6', description: 'Suggested for you'},
-      {title: 'Gradient #7', description: 'Suggested for you'}
-    ]
-  }
+  state = {}
 
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
 
-    // return {
-    //   headerRight: (
-    //     <Button
-    //       title = "Test"
-    //       onPress = {() => params.handleSave && params.handleSave()}/>)
-    // };
     return {
       headerRight: (
         <TouchableOpacity onPress={() => {
@@ -67,6 +53,14 @@ class GradientsGridScreen extends React.PureComponent {
       )
     };
   };
+
+  componentDidMount () {
+    // if redux persist is not active fire startup action
+    // if (!ReduxPersist.active) {
+      // console.tron.log('requesting gradients')
+      this.props.request()
+    // }
+  }
 
   /* ***********************************************************
   * STEP 2
@@ -173,7 +167,7 @@ class GradientsGridScreen extends React.PureComponent {
         />
         <FlatList
           contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
+          data={this.props.dataObjects}
           renderItem={this.renderRow}
           numColumns={3}
           keyExtractor={this.keyExtractor}
@@ -185,8 +179,8 @@ class GradientsGridScreen extends React.PureComponent {
         />
         <View style={{
           ...StyleSheet.absoluteFillObject,
-        justifyContent: 'flex-end', alignItems: 'center', zIndex: 10}}
-        pointerEvents='box-none'>
+          justifyContent: 'flex-end', alignItems: 'center', zIndex: 10}}
+          pointerEvents='box-none'>
           <TouchableOpacity onPress={this.openFavorites}>
             <LinearGradient
               start={{x: 0.5, y: 1.0}} end={{x: 0.9, y: 1.0}}
@@ -206,12 +200,13 @@ class GradientsGridScreen extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    // ...redux state to props here
+    dataObjects: state.gradients.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    request: () => dispatch(GradientsActions.gradientsRequest())
   }
 }
 
