@@ -5,7 +5,7 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex:1,
-    paddingBottom: Metrics.section,
+    // paddingBottom: Metrics.section,
     // backgroundColor: Colors.background,
   },
   logo: {
@@ -15,7 +15,8 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   centered: {
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: Metrics.section,
   },
   button: {
     height: 45,

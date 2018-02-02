@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Button,
   Alert,
-  StatusBar
+  StatusBar,
+  AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
@@ -42,9 +43,11 @@ class GradientsGridScreen extends React.PureComponent {
             'Warning',
             'Do you want to logout ?',
             [
-            // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            {text: 'OK', onPress: () => navigation.dispatch(NavigationActions.back())},
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: 'OK', onPress: () => {
+                navigation.state.params.onLogout()
+                navigation.dispatch(NavigationActions.back())
+              }},
             ],
             { cancelable: false }
           )
@@ -56,6 +59,9 @@ class GradientsGridScreen extends React.PureComponent {
   };
 
   componentDidMount () {
+    this.props.navigation.setParams({
+      onLogout: this.logout.bind(this)
+    })
     // if redux persist is not active fire startup action
     // if (!ReduxPersist.active) {
       this.props.requestGradients()
@@ -77,6 +83,11 @@ class GradientsGridScreen extends React.PureComponent {
   isFavorite = (item) => {
     let {favorites} = this.props
     return favorites && favorites.some(e => e.id == item.id )
+  }
+
+  logout = () => {
+    this.props.clearFavorites()
+    AsyncStorage.removeItem('@GradientShowcase:credentials')
   }
 
   /* ***********************************************************
@@ -228,7 +239,8 @@ const mapDispatchToProps = (dispatch) => {
     requestGradients: () => dispatch(GradientsActions.gradientsRequest()),
     getFavorites: () => dispatch(FavoritesActions.getFavorites()),
     addFavorite: (item) => dispatch(FavoritesActions.addFavorite(item)),
-    removeFavorite: (item) => dispatch(FavoritesActions.removeFavoriteSuccess(item))
+    removeFavorite: (item) => dispatch(FavoritesActions.removeFavoriteSuccess(item)),
+    clearFavorites: () => dispatch(FavoritesActions.clearFavoritesSuccess())
   }
 }
 
