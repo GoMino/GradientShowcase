@@ -9,12 +9,14 @@ import DebugConfig from '../Config/DebugConfig'
 import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { GradientsTypes } from '../Redux/GradientsRedux'
+import { FavoritesTypes } from '../Redux/FavoritesRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { getGradients } from './GradientsSagas'
+import { getFavorites, addFavorite } from './FavoritesSagas'
 
 /* ------------- API ------------- */
 
@@ -33,6 +35,9 @@ export default function * root () {
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
 
-    takeLatest(GradientsTypes.GRADIENTS_REQUEST, getGradients, gradientsApi)
+    takeLatest(GradientsTypes.GRADIENTS_REQUEST, getGradients, gradientsApi),
+
+    takeLatest(FavoritesTypes.GET_FAVORITES, getFavorites),
+    takeLatest(FavoritesTypes.ADD_FAVORITE, addFavorite)
   ])
 }

@@ -56,5 +56,12 @@ export default StyleSheet.create({
     width:200,
     justifyContent: 'center',
     alignItems:'center',
+    shadowOffset: {
+      width: 1,
+      height: 1
+    },
+    shadowColor: 'black',
+    shadowRadius: 2,
+    shadowOpacity: 0.7,
   }
 })

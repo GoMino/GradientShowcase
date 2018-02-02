@@ -14,6 +14,7 @@ import { NavigationActions } from 'react-navigation'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import GradientsActions from '../Redux/GradientsRedux'
+import FavoritesActions from '../Redux/FavoritesRedux'
 import ReduxPersist from '../Config/ReduxPersist'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
@@ -57,9 +58,25 @@ class GradientsGridScreen extends React.PureComponent {
   componentDidMount () {
     // if redux persist is not active fire startup action
     // if (!ReduxPersist.active) {
-      // console.tron.log('requesting gradients')
-      this.props.request()
+      this.props.requestGradients()
+      this.props.getFavorites()
     // }
+  }
+
+  toggleFavorite = (item) => {
+    console.log(`toggleFavorite :${item.title}`)
+    let {favorites} = this.props
+
+    if(this.isFavorite(item)){
+      this.props.removeFavorite(item)
+    }else{
+      this.props.addFavorite(item)
+    }
+  }
+
+  isFavorite = (item) => {
+    let {favorites} = this.props
+    return favorites && favorites.some(e => e.id == item.id )
   }
 
   /* ***********************************************************
@@ -70,13 +87,13 @@ class GradientsGridScreen extends React.PureComponent {
   * e.g.
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
-  renderRow ({item}) {
+  renderRow = ({item}) => {
     return (
       <View style={styles.row}>
         <LinearGradient
-          start={{x: 0.5, y: 1.0}} end={{x: 0.9, y: 1.0}}
-          locations={[0,1.0]}
-          colors={['#E74958', '#A41428']}
+          start={{x: 1.0, y: 0.1}} end={{x: 1.0, y: 1.0}}
+          locations={[0,0.7]}
+          colors={['#E74958','#A41428']}
           style={{
             overflow: 'hidden',
             borderTopLeftRadius: Metrics.baseMargin,
@@ -96,8 +113,8 @@ class GradientsGridScreen extends React.PureComponent {
               backgroundColor:'transparent',
               alignSelf:'flex-end'
             }}
-            onPress={() => window.alert('pop')} >
-            <Icon name='star-outline' size={30} color='orange' style={{marginHorizontal: 5}} />
+            onPress={ () => this.toggleFavorite(item) }>
+            <Icon name={this.isFavorite(item)?'star':'star-outline'} size={30} color='orange' style={{marginHorizontal: 5}} />
           </TouchableOpacity>
         </LinearGradient>
 
@@ -172,10 +189,11 @@ class GradientsGridScreen extends React.PureComponent {
           numColumns={3}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
+          ListEmptyComponent={this.renderEmpty}
           // ListHeaderComponent={this.renderHeader}
           // ListFooterComponent={this.renderFooter}
-          ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
+          extraData={this.props.favorites}
         />
         <View style={{
           ...StyleSheet.absoluteFillObject,
@@ -183,13 +201,13 @@ class GradientsGridScreen extends React.PureComponent {
           pointerEvents='box-none'>
           <TouchableOpacity onPress={this.openFavorites}>
             <LinearGradient
-              start={{x: 0.5, y: 1.0}} end={{x: 0.9, y: 1.0}}
-              locations={[0,0.5,1.0]}
+              start={{x: 0.2, y: 1.0}} end={{x: 1.0, y: 1.0}}
+              locations={[0,0.7,1.0]}
               colors={['#3625AC', '#7F47BD', '#B57CB7']}
               style={[buttonStyles.button, styles.button, {
                 marginBottom: 30,
               }]}>
-              <Text style={buttonStyles.buttonText}>Show all my favorites</Text>
+              <Text style={buttonStyles.buttonText}>Show all my Favorites</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -200,13 +218,17 @@ class GradientsGridScreen extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    dataObjects: state.gradients.payload
+    dataObjects: state.gradients.payload,
+    favorites: state.favorites.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    request: () => dispatch(GradientsActions.gradientsRequest())
+    requestGradients: () => dispatch(GradientsActions.gradientsRequest()),
+    getFavorites: () => dispatch(FavoritesActions.getFavorites()),
+    addFavorite: (item) => dispatch(FavoritesActions.addFavorite(item)),
+    removeFavorite: (item) => dispatch(FavoritesActions.removeFavoriteSuccess(item))
   }
 }
 

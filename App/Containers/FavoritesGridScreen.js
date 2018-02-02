@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native
 import { connect } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import FavoritesActions from '../Redux/FavoritesRedux'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 
@@ -17,13 +18,7 @@ class GradientsGridScreen extends React.PureComponent {
   * This is an array of objects with the properties you desire
   * Usually this should come from Redux mapStateToProps
   *************************************************************/
-  state = {
-    dataObjects: [
-      {title: 'Gradient #1', description: 'Suggested for you'},
-      {title: 'Gradient #2', description: 'Suggested for you'},
-      {title: 'Gradient #3', description: 'Suggested for you'},
-    ]
-  }
+  state = {}
 
   /* ***********************************************************
   * STEP 2
@@ -33,12 +28,12 @@ class GradientsGridScreen extends React.PureComponent {
   * e.g.
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
-  renderRow ({item}) {
+  renderRow = ({item}) => {
     return (
       <View style={styles.row}>
         <LinearGradient
-          start={{x: 0.5, y: 1.0}} end={{x: 0.9, y: 1.0}}
-          locations={[0,1.0]}
+          start={{x: 1.0, y: 0.2}} end={{x: 1.0, y: 1.0}}
+          locations={[0,0.7]}
           colors={['#E74958', '#A41428']}
           style={{
             overflow: 'hidden',
@@ -57,7 +52,7 @@ class GradientsGridScreen extends React.PureComponent {
               backgroundColor:'transparent',
               alignSelf:'flex-end'
             }}
-            onPress={() => window.alert('pop')} >
+            onPress={() => this.props.removeFavorite(item) } >
             <Icon name='star' size={30} color='orange' style={{marginHorizontal: 5}} />
           </TouchableOpacity>
           </LinearGradient>
@@ -116,7 +111,7 @@ class GradientsGridScreen extends React.PureComponent {
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
+          data={this.props.favorites}
           renderItem={this.renderRow}
           numColumns={3}
           keyExtractor={this.keyExtractor}
@@ -130,7 +125,7 @@ class GradientsGridScreen extends React.PureComponent {
           ...StyleSheet.absoluteFillObject,
         justifyContent: 'flex-end', alignItems: 'center', zIndex: 10}}
         pointerEvents='box-none'>
-          <TouchableOpacity onPress={() => console.tron.log("should clear favorites")}>
+          <TouchableOpacity onPress={() => this.props.clearFavorites()}>
             <LinearGradient
               start={{x: 0.5, y: 1.0}} end={{x: 0.9, y: 1.0}}
               locations={[0,1.0]}
@@ -138,7 +133,7 @@ class GradientsGridScreen extends React.PureComponent {
               style={[buttonStyles.button, styles.button, {
                 marginBottom: 30,
               }]}>
-              <Text style={buttonStyles.buttonText}>Clear all</Text>
+              <Text style={buttonStyles.buttonText}>Clear All</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -149,12 +144,14 @@ class GradientsGridScreen extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    // ...redux state to props here
+    favorites: state.favorites.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    removeFavorite: (item) => dispatch(FavoritesActions.removeFavoriteSuccess(item)),
+    clearFavorites: () => dispatch(FavoritesActions.clearFavoritesSuccess())
   }
 }
 

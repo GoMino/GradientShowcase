@@ -10,6 +10,7 @@ export const reducers = combineReducers({
   github: require('./GithubRedux').reducer,
   search: require('./SearchRedux').reducer,
   gradients: require('./GradientsRedux').reducer,
+  favorites: require('./FavoritesRedux').reducer,
 })
 
 export default () => {
