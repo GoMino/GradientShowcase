@@ -68,7 +68,8 @@ class LoginScreen extends Component {
           // Successfully authenticated
           // Store the credentials
           AsyncStorage.setItem('@GradientShowcase:credentials', JSON.stringify(credentials))
-          this.goToHomeScreen()
+            .then((creds) => this.goToHomeScreen())
+            .catch(()=> console.log(`couldn't store credentials`))
         }
       )
       .catch(error => console.log(error));

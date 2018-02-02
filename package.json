@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start:ios": "react-native run-ios --simulator=\"iPhone 7 Plus\"",
+    "start:ios-device": "react-native run-ios --device",
+    "start:android": "react-native run-android --simulator",
     "test": "jest",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
     "clean:android": "cd android/ && ./gradlew clean && cd .. && react-native run-android",

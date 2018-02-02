@@ -35,7 +35,7 @@ export default (rootReducer, rootSaga) => {
     shouldHotReload: false
   }) : compose;
   // const composer = Config.useReduxDevTools ? composeWithDevTools({hostname: 'remotedev.io'}) : compose
-  
+
   const store = createAppropriateStore(rootReducer, composer(...enhancers))
 
   // configure persistStore and check reducer version number

@@ -5,6 +5,7 @@ import apisauce from 'apisauce'
 // const path = 'GoMino/921fec5074c84367c6a8d3f6d4ea3b42/raw/gradients.json'
 const host = 'http://api.jsoneditoronline.org/'
 const path = 'v1/docs/5f5c494ac495469df612fad1cda415a1/data'
+//to edit list of gradients -> https://jsoneditoronline.org/?id=5f5c494ac495469df612fad1cda415a1
 
 // our "constructor"
 const create = (baseURL = host) => {

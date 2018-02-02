@@ -75,7 +75,7 @@ export const removeFavorite = (state, { data }) =>
 // successful api lookup
 export const removeFavoriteSuccess = (state, action) => {
   const { item } = action
-  return state.merge({ fetching: false, error: null, payload: state.payload.filter(element => element !== item) })
+  return state.merge({ fetching: false, error: null, payload: state.payload.filter(element => element !== item && element.id != item.id) })
 }
 
 // Something went wrong somewhere.
