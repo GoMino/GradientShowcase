@@ -18,6 +18,7 @@ The idea of ​​this test is to perform the challenge using the front end: Rea
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 * Standard compliant React Native App Utilizing [Ignite](https://github.com/infinitered/ignite)
+* Demo ANDROID APP available for download [HERE](https://www.dropbox.com/s/yklp88dxavcv75b/GradientShowcase-release.apk?dl=1)
 
 ## :arrow_up: How to Setup
 
